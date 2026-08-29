@@ -22,7 +22,7 @@ class ModelType(StrEnum):
 class ModelConfig:
     model_type: ModelType
     hyperparameters: dict[str, Any] = field(default_factory=dict)
-    class_weight: str | dict | None = "balanced"
+    class_weight: str | dict[str, float] | None = "balanced"
     threshold: float = 0.5
     random_seed: int = 42
 

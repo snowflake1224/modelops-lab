@@ -36,7 +36,10 @@ def get_git_commit() -> str:
 
 def load_experiment_config(path: Path) -> dict[str, Any]:
     with path.open() as f:
-        return yaml.safe_load(f)
+        loaded = yaml.safe_load(f)
+    if not isinstance(loaded, dict):
+        raise ValueError(f"Experiment config must be a mapping: {path}")
+    return loaded
 
 
 class TrainingPipeline:

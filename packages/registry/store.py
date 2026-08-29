@@ -74,7 +74,7 @@ class ModelRegistry:
         version: str,
         artifact_path: str,
         metrics: dict[str, float],
-        config: dict,
+        config: dict[str, Any],
         git_commit: str,
         lineage_id: str | None = None,
     ) -> ModelVersion:
@@ -104,7 +104,13 @@ class ModelRegistry:
             versions = [v for v in versions if v.stage == stage]
         return sorted(versions, key=lambda v: v.created_at, reverse=True)
 
-    def promote(self, name: str, version: str, target_stage: ModelStage, metrics: dict | None = None) -> ModelVersion:
+    def promote(
+        self,
+        name: str,
+        version: str,
+        target_stage: ModelStage,
+        metrics: dict[str, float] | None = None,
+    ) -> ModelVersion:
         key = f"{name}:{version}"
         mv = self._versions.get(key)
         if not mv:

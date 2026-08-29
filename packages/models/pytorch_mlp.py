@@ -41,45 +41,55 @@ class PyTorchMLPModel(BaseModel):
     ) -> "PyTorchMLPModel":
         start = time.perf_counter()
         hp = self.config.hyperparameters
-        hidden = hp.get("hidden_dims", [128, 64, 32])
         dropout = hp.get("dropout", 0.2)
         epochs = hp.get("epochs", 30)
         batch_size = hp.get("batch_size", 256)
         lr = hp.get("learning_rate", 1e-3)
 
         torch.manual_seed(self.config.random_seed)
-        self._network = MLP(x.shape[1], hidden, dropout).to(self._device)
+        hidden_dims = hp.get("hidden_dims", [128, 64, 32])
+        if not isinstance(hidden_dims, list):
+            hidden_dims = [128, 64, 32]
+        network = MLP(int(x.shape[1]), hidden_dims, float(dropout)).to(self._device)
+        self._network = network
 
         # Class-weighted BCE loss
         pos_weight = torch.tensor([(y == 0).sum() / max((y == 1).sum(), 1)], device=self._device)
         criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
-        optimizer = torch.optim.Adam(self._network.parameters(), lr=lr)
+        optimizer = torch.optim.Adam(network.parameters(), lr=float(lr))
 
         x_tensor = torch.tensor(x, dtype=torch.float32)
         y_tensor = torch.tensor(y, dtype=torch.float32)
-        loader = DataLoader(TensorDataset(x_tensor, y_tensor), batch_size=batch_size, shuffle=True)
+        loader = DataLoader(
+            TensorDataset(x_tensor, y_tensor),
+            batch_size=int(batch_size),
+            shuffle=True,
+        )
 
-        self._network.train()
-        for _ in range(epochs):
+        network.train()
+        for _ in range(int(epochs)):
             for batch_x, batch_y in loader:
                 batch_x, batch_y = batch_x.to(self._device), batch_y.to(self._device)
                 optimizer.zero_grad()
-                logits = self._network(batch_x)
+                logits = network(batch_x)
                 loss = criterion(logits, batch_y)
                 loss.backward()
                 optimizer.step()
 
-        self.model = self._network
+        self.model = network
         self.training_duration_s = time.perf_counter() - start
         return self
 
     def predict_proba(self, x: np.ndarray) -> np.ndarray:
-        self._network.eval()
+        if self._network is None:
+            raise RuntimeError("PyTorch model is not fitted")
+        network = self._network
+        network.eval()
         with torch.no_grad():
             tensor = torch.tensor(x, dtype=torch.float32).to(self._device)
-            logits = self._network(tensor)
+            logits = network(tensor)
             proba = torch.sigmoid(logits).cpu().numpy()
-        return proba
+        return np.asarray(proba)
 
     def save(self, path: Path) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)

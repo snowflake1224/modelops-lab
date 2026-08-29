@@ -41,7 +41,10 @@ def get_search_space(trial: optuna.Trial, model_type: ModelType) -> dict[str, An
 class HyperparameterOptimizer:
     def __init__(self, base_config_path: Path, n_trials: int = 20):
         with base_config_path.open() as f:
-            self.base_config = yaml.safe_load(f)
+            loaded = yaml.safe_load(f)
+        if not isinstance(loaded, dict):
+            raise ValueError(f"Experiment config must be a mapping: {base_config_path}")
+        self.base_config = loaded
         self.n_trials = n_trials
         self.settings = get_settings()
 

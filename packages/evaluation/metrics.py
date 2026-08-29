@@ -1,6 +1,7 @@
 """Evaluation metrics and statistical analysis."""
 
 from dataclasses import dataclass, field
+from typing import Any
 
 import numpy as np
 from sklearn.calibration import calibration_curve
@@ -25,8 +26,8 @@ class MetricResult:
     pr_auc: float
     confusion: list[list[int]]
     threshold: float
-    calibration: dict = field(default_factory=dict)
-    bootstrap_ci: dict = field(default_factory=dict)
+    calibration: dict[str, Any] = field(default_factory=dict)
+    bootstrap_ci: dict[str, tuple[float, float]] = field(default_factory=dict)
 
 
 def compute_metrics(
@@ -83,7 +84,7 @@ def find_optimal_threshold(y_true: np.ndarray, y_proba: np.ndarray, metric: str 
     return float(thresholds[idx]) if len(thresholds) else 0.5
 
 
-def metrics_to_dict(result: MetricResult) -> dict:
+def metrics_to_dict(result: MetricResult) -> dict[str, Any]:
     return {
         "precision": result.precision,
         "recall": result.recall,

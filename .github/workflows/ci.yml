@@ -40,7 +40,7 @@ jobs:
         run: uv run ruff check packages apps tests
 
       - name: Type check
-        run: uv run mypy packages apps --ignore-missing-imports --explicit-package-bases
+        run: uv run mypy packages apps --ignore-missing-imports --explicit-package-bases --no-error-summary
 
       - name: Run tests
         env:

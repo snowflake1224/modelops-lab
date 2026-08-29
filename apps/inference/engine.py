@@ -69,23 +69,25 @@ class InferenceEngine:
         features: list[dict[str, float]],
         request_id: str = "unknown",
     ) -> PredictionResult:
-        if not self.is_ready:
+        if not self.is_ready or self.model is None:
             raise RuntimeError("Inference engine not loaded")
 
         start = time.perf_counter()
         import pandas as pd
 
         df = pd.DataFrame(features)
+        model = self.model
         if self.preprocessor:
             expected = self.preprocessor.feature_names_
             missing = set(expected) - set(df.columns)
             if missing:
                 raise ValueError(f"Missing features: {sorted(missing)}")
-            x = self.preprocessor.transform(df[expected] if all(c in df.columns for c in expected) else df)
+            columns = expected if all(c in df.columns for c in expected) else list(df.columns)
+            x = self.preprocessor.transform(df[columns])
         else:
             x = df.values.astype(np.float64)
 
-        proba = self.model.predict_proba(x)
+        proba = model.predict_proba(x)
         preds = (proba >= self.threshold).astype(int)
         latency = (time.perf_counter() - start) * 1000
 
