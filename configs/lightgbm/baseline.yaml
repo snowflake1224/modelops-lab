@@ -1,0 +1,20 @@
+experiment_name: modelops-lab
+run_name: lightgbm-baseline
+dataset: credit_card_fraud
+seed: 42
+
+preprocessing:
+  scale: true
+  add_interactions: false
+  clip_outliers: true
+
+model:
+  type: lightgbm
+  class_weight: balanced
+  hyperparameters:
+    n_estimators: 200
+    learning_rate: 0.05
+    max_depth: 6
+    num_leaves: 31
+    subsample: 0.8
+    colsample_bytree: 0.8

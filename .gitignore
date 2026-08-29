@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+.venv/
+venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Data & artifacts
+data/raw/
+data/processed/
+data/artifacts/
+data/mlflow.db
+data/registry/
+data/lineage/
+data/monitoring/
+data/batch_outputs/
+mlruns/
+mlartifacts/
+*.pkl
+*.joblib
+*.pt
+*.onnx
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Optuna
+optuna_studies/

@@ -1,0 +1,217 @@
+[
+  {
+    "config": "configs/logistic_regression/baseline.yaml",
+    "run_id": "a6345e3725ca4afa9c0032ec7e4381ae",
+    "model": "logistic_regression",
+    "test_metrics": {
+      "precision": 0.7532467532467533,
+      "recall": 0.7837837837837838,
+      "f1": 0.7682119205298014,
+      "roc_auc": 0.9716675031812905,
+      "pr_auc": 0.7942889913320993,
+      "threshold": 0.9968630421852649,
+      "confusion_matrix": [
+        [
+          42629,
+          19
+        ],
+        [
+          16,
+          58
+        ]
+      ],
+      "bootstrap_ci": {
+        "precision": [
+          0.0,
+          0.013893779342723005
+        ],
+        "recall": [
+          0.0,
+          0.014492753623188406
+        ],
+        "f1": [
+          0.0,
+          0.014092106596413013
+        ],
+        "pr_auc": [
+          0.0013517665998200915,
+          0.0027968854102194403
+        ]
+      }
+    },
+    "training_duration_s": 0.9915662999992492,
+    "optimal_threshold": 0.9968630421852649
+  },
+  {
+    "config": "configs/lightgbm/baseline.yaml",
+    "run_id": "e5226e5cbf2b485f864b42c79d34d740",
+    "model": "lightgbm",
+    "test_metrics": {
+      "precision": 0.10645724258289703,
+      "recall": 0.8243243243243243,
+      "f1": 0.18856259659969088,
+      "roc_auc": 0.8915781989079682,
+      "pr_auc": 0.0887286082530562,
+      "threshold": 1.0,
+      "confusion_matrix": [
+        [
+          42136,
+          512
+        ],
+        [
+          13,
+          61
+        ]
+      ],
+      "bootstrap_ci": {
+        "precision": [
+          0.0,
+          0.005339518420850509
+        ],
+        "recall": [
+          0.0,
+          0.04054054054054054
+        ],
+        "f1": [
+          0.0,
+          0.009969708813758062
+        ],
+        "pr_auc": [
+          0.0013602707564295984,
+          0.0022745571177933623
+        ]
+      }
+    },
+    "training_duration_s": 5.801488500001142,
+    "optimal_threshold": 1.0
+  },
+  {
+    "config": "configs/xgboost/baseline.yaml",
+    "run_id": "4965ef6b5d5642e699bd49c0d1de86f7",
+    "model": "xgboost",
+    "test_metrics": {
+      "precision": 0.9473684210526315,
+      "recall": 0.7297297297297297,
+      "f1": 0.8244274809160306,
+      "roc_auc": 0.9621176114212131,
+      "pr_auc": 0.8302718171840485,
+      "threshold": 0.9874894022941589,
+      "confusion_matrix": [
+        [
+          42645,
+          3
+        ],
+        [
+          20,
+          54
+        ]
+      ],
+      "bootstrap_ci": {
+        "precision": [
+          0.0,
+          0.018217468805704108
+        ],
+        "recall": [
+          0.0,
+          0.014094713206776896
+        ],
+        "f1": [
+          0.0,
+          0.015046269519953732
+        ],
+        "pr_auc": [
+          0.00136140748267823,
+          0.0033472864458722806
+        ]
+      }
+    },
+    "training_duration_s": 9.49123359999794,
+    "optimal_threshold": 0.9874894022941589
+  },
+  {
+    "config": "configs/pytorch_mlp/baseline.yaml",
+    "run_id": "34cfc9e5a2154a2a98d0f8d4b333da88",
+    "model": "pytorch_mlp",
+    "test_metrics": {
+      "precision": 0.8923076923076924,
+      "recall": 0.7837837837837838,
+      "f1": 0.8345323741007195,
+      "roc_auc": 0.9776482658798359,
+      "pr_auc": 0.7472504523178579,
+      "threshold": 0.9999998807907104,
+      "confusion_matrix": [
+        [
+          42641,
+          7
+        ],
+        [
+          16,
+          58
+        ]
+      ],
+      "bootstrap_ci": {
+        "precision": [
+          0.0,
+          0.016129032258064516
+        ],
+        "recall": [
+          0.0,
+          0.014094713206776896
+        ],
+        "f1": [
+          0.0,
+          0.015267175572519083
+        ],
+        "pr_auc": [
+          0.0012737103226953858,
+          0.002554653376187024
+        ]
+      }
+    },
+    "training_duration_s": 482.9921340000001,
+    "optimal_threshold": 0.9999998807907104
+  },
+  {
+    "config": "configs/lightgbm/with_interactions.yaml",
+    "run_id": "0cd8b9d7c51c4b4aa0634d39248be660",
+    "model": "lightgbm",
+    "test_metrics": {
+      "precision": 0.9622641509433962,
+      "recall": 0.6891891891891891,
+      "f1": 0.8031496062992126,
+      "roc_auc": 0.8519058591512165,
+      "pr_auc": 0.6774229968384955,
+      "threshold": 0.9944930264268296,
+      "confusion_matrix": [
+        [
+          42646,
+          2
+        ],
+        [
+          23,
+          51
+        ]
+      ],
+      "bootstrap_ci": {
+        "precision": [
+          0.0,
+          0.01854575163398693
+        ],
+        "recall": [
+          0.0,
+          0.014492753623188406
+        ],
+        "f1": [
+          0.0,
+          0.01587941628264209
+        ],
+        "pr_auc": [
+          0.0013258530591601844,
+          0.003682025920170052
+        ]
+      }
+    },
+    "training_duration_s": 10.430478900001617,
+    "optimal_threshold": 0.9944930264268296
+  }
+]

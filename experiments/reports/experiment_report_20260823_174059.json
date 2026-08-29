@@ -1,0 +1,22 @@
+[
+  {
+    "config": "configs/logistic_regression/baseline.yaml",
+    "error": "'Categorical' with dtype category does not support reduction 'mean'"
+  },
+  {
+    "config": "configs/lightgbm/baseline.yaml",
+    "error": "'Categorical' with dtype category does not support reduction 'mean'"
+  },
+  {
+    "config": "configs/xgboost/baseline.yaml",
+    "error": "'Categorical' with dtype category does not support reduction 'mean'"
+  },
+  {
+    "config": "configs/pytorch_mlp/baseline.yaml",
+    "error": "'Categorical' with dtype category does not support reduction 'mean'"
+  },
+  {
+    "config": "configs/lightgbm/with_interactions.yaml",
+    "error": "'Categorical' with dtype category does not support reduction 'mean'"
+  }
+]

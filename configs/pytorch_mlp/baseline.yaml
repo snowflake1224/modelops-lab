@@ -1,0 +1,19 @@
+experiment_name: modelops-lab
+run_name: pytorch-mlp-baseline
+dataset: credit_card_fraud
+seed: 42
+
+preprocessing:
+  scale: true
+  add_interactions: false
+  clip_outliers: true
+
+model:
+  type: pytorch_mlp
+  class_weight: balanced
+  hyperparameters:
+    hidden_dims: [128, 64, 32]
+    dropout: 0.2
+    epochs: 30
+    batch_size: 256
+    learning_rate: 0.001

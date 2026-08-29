@@ -1,0 +1,18 @@
+experiment_name: modelops-lab
+run_name: lightgbm-interactions
+dataset: credit_card_fraud
+seed: 42
+
+preprocessing:
+  scale: true
+  add_interactions: true
+  clip_outliers: true
+
+model:
+  type: lightgbm
+  class_weight: balanced
+  hyperparameters:
+    n_estimators: 300
+    learning_rate: 0.03
+    max_depth: 8
+    num_leaves: 47
