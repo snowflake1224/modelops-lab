@@ -66,11 +66,16 @@ line-length = 100
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = [
+    "E501",  # line length handled by wrap where it matters
+    "B008",  # Typer uses function calls in argument defaults
+]
 
 [tool.mypy]
 python_version = "3.12"
 strict = false
 ignore_missing_imports = true
+explicit_package_bases = true
 packages = ["packages", "apps"]
 
 [tool.pytest.ini_options]

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """End-to-end platform workflow demonstration."""
 
-import json
 import sys
 from pathlib import Path
 
@@ -44,8 +43,8 @@ def main():
     from apps.inference.engine import InferenceEngine
     engine = InferenceEngine(settings.data_dir / "registry")
     engine.load()
-    import numpy as np
     import joblib
+    import numpy as np
     processed = settings.processed_data_dir / "credit_card_fraud_v1"
     preprocessor = joblib.load(processed / "preprocessor.joblib")
     splits = np.load(processed / "splits.npz")

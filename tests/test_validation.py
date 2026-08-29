@@ -1,9 +1,8 @@
 """Tests for data validation."""
 
 import pandas as pd
-import pytest
 
-from packages.data.validation import validate_schema, validate_no_leakage
+from packages.data.validation import validate_no_leakage, validate_schema
 
 
 def test_validate_schema_pass():

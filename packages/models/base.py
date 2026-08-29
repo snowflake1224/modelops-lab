@@ -3,7 +3,7 @@
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
@@ -11,7 +11,7 @@ import joblib
 import numpy as np
 
 
-class ModelType(str, Enum):
+class ModelType(StrEnum):
     LOGISTIC_REGRESSION = "logistic_regression"
     LIGHTGBM = "lightgbm"
     XGBOOST = "xgboost"
@@ -78,10 +78,10 @@ class BaseModel(ABC):
 
 
 def create_model(config: ModelConfig) -> BaseModel:
-    from packages.models.logistic import LogisticRegressionModel
     from packages.models.lightgbm_model import LightGBMModel
-    from packages.models.xgboost_model import XGBoostModel
+    from packages.models.logistic import LogisticRegressionModel
     from packages.models.pytorch_mlp import PyTorchMLPModel
+    from packages.models.xgboost_model import XGBoostModel
 
     registry = {
         ModelType.LOGISTIC_REGRESSION: LogisticRegressionModel,

@@ -1,8 +1,7 @@
 """FastAPI inference service."""
 
 import uuid
-from contextlib import asynccontextmanager
-from typing import Any
+from contextlib import asynccontextmanager, suppress
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
@@ -32,10 +31,8 @@ async def lifespan(app: FastAPI):
     global engine
     settings = get_settings()
     engine = InferenceEngine(settings.data_dir / "registry")
-    try:
+    with suppress(RuntimeError):
         engine.load()
-    except RuntimeError:
-        pass  # Service starts but not ready until model registered
     yield
 
 

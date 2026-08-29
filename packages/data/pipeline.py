@@ -5,7 +5,6 @@ from pathlib import Path
 
 import joblib
 import numpy as np
-import pandas as pd
 from sklearn.model_selection import StratifiedShuffleSplit
 
 from packages.data.adapter import DatasetMetadata

@@ -5,7 +5,7 @@ import time
 import numpy as np
 from sklearn.linear_model import LogisticRegression
 
-from packages.models.base import BaseModel, ModelConfig
+from packages.models.base import BaseModel
 
 
 class LogisticRegressionModel(BaseModel):

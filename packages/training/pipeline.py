@@ -19,7 +19,6 @@ from packages.evaluation.metrics import compute_metrics, find_optimal_threshold,
 from packages.features.preprocessing import PreprocessorConfig
 from packages.models.base import ModelConfig, ModelType, create_model
 from packages.registry.lineage import LineageTracker
-from packages.registry.store import ModelRegistry, ModelStage
 
 
 def get_git_commit() -> str:

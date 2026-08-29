@@ -1,15 +1,10 @@
 """Retraining workflow: monitoring event → candidate → validation → staging."""
 
 import uuid
-from dataclasses import asdict
-from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-import yaml
-
 from packages.config.settings import get_settings
-from packages.evaluation.metrics import compute_metrics, metrics_to_dict
 from packages.monitoring.store import MonitoringStore
 from packages.registry.store import ModelRegistry, ModelStage
 from packages.training.pipeline import TrainingPipeline, get_git_commit

@@ -1,9 +1,9 @@
 """Integration test for training pipeline (uses synthetic data fallback)."""
 
+
 import numpy as np
 import pandas as pd
 import pytest
-from pathlib import Path
 
 
 @pytest.fixture
@@ -23,20 +23,20 @@ def synthetic_dataset(tmp_path):
 
 def test_data_pipeline_split(synthetic_dataset, monkeypatch):
     from packages.data.pipeline import DataPipeline
-    from packages.config.settings import get_settings
 
     # Monkeypatch data dir
     monkeypatch.setenv("DATA_DIR", str(synthetic_dataset))
-    pipeline = DataPipeline(seed=42)
+    DataPipeline(seed=42)
 
     # Use pre-saved data
     from packages.data.datasets.credit_card_fraud import CreditCardFraudAdapter
     adapter = CreditCardFraudAdapter()
     df = pd.read_parquet(synthetic_dataset / "raw" / "credit_card_fraud.parquet")
-    metadata = adapter.get_metadata(df)
+    adapter.get_metadata(df)
+
+    from sklearn.model_selection import StratifiedShuffleSplit
 
     from packages.features.preprocessing import FeaturePreprocessor
-    from sklearn.model_selection import StratifiedShuffleSplit
 
     target = "Class"
     feature_cols = [c for c in df.columns if c != target]

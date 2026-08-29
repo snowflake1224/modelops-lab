@@ -2,14 +2,12 @@
 
 from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Any
 
 import mlflow
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from packages.config.settings import get_settings
-from packages.drift.detector import detect_dataset_drift
 from packages.monitoring.store import MonitoringStore
 from packages.registry.store import ModelRegistry, ModelStage
 from packages.training.pipeline import TrainingPipeline

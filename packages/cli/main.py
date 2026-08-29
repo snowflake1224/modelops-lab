@@ -1,10 +1,8 @@
 """ModelOps Lab CLI."""
 
 from pathlib import Path
-from typing import Optional
 
 import typer
-import yaml
 from rich.console import Console
 from rich.table import Table
 
@@ -157,8 +155,9 @@ def serve(host: str = "0.0.0.0", port: int = 8000):
 
 
 @app.command("drift")
-def drift_check(reference: Optional[Path] = None, current: Optional[Path] = None):
+def drift_check(reference: Path | None = None, current: Path | None = None):
     import numpy as np
+
     from packages.drift.detector import detect_dataset_drift
     from packages.monitoring.store import MonitoringStore
     settings = get_settings()
@@ -185,7 +184,7 @@ def drift_check(reference: Optional[Path] = None, current: Optional[Path] = None
 
 
 @app.command("retrain")
-def retrain_candidate(config: Optional[Path] = None):
+def retrain_candidate(config: Path | None = None):
     from packages.training.retrain import RetrainingPipeline
     pipeline = RetrainingPipeline()
     result = pipeline.create_candidate(config_path=config)
@@ -195,7 +194,7 @@ def retrain_candidate(config: Optional[Path] = None):
 
 
 @app.command("batch")
-def batch_infer(input_path: Path, version: Optional[str] = None):
+def batch_infer(input_path: Path, version: str | None = None):
     from apps.inference.batch import BatchInference
     runner = BatchInference()
     result = runner.run(input_path, model_version=version)

@@ -30,7 +30,7 @@ def test_preprocessor_consistency(sample_data):
     x, y = sample_data
     preprocessor = FeaturePreprocessor()
     preprocessor.fit(x, y)
-    train_result = preprocessor.transform(x)
+    preprocessor.transform(x)
     infer_result = preprocessor.transform(x.iloc[:10])
     assert infer_result.shape == (10, len(preprocessor.feature_names_))
 
