@@ -46,6 +46,8 @@ Thumbs.db
 # Logs
 logs/
 *.log
+logs_extracted/
+logs_*.zip
 
 # Optuna
 optuna_studies/

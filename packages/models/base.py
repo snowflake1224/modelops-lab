@@ -83,15 +83,15 @@ def create_model(config: ModelConfig) -> BaseModel:
     from packages.models.pytorch_mlp import PyTorchMLPModel
     from packages.models.xgboost_model import XGBoostModel
 
-    registry = {
-        ModelType.LOGISTIC_REGRESSION: LogisticRegressionModel,
-        ModelType.LIGHTGBM: LightGBMModel,
-        ModelType.XGBOOST: XGBoostModel,
-        ModelType.PYTORCH_MLP: PyTorchMLPModel,
-    }
-    if config.model_type not in registry:
-        raise ValueError(f"Unknown model type: {config.model_type}")
-    return registry[config.model_type](config)
+    if config.model_type == ModelType.LOGISTIC_REGRESSION:
+        return LogisticRegressionModel(config)
+    if config.model_type == ModelType.LIGHTGBM:
+        return LightGBMModel(config)
+    if config.model_type == ModelType.XGBOOST:
+        return XGBoostModel(config)
+    if config.model_type == ModelType.PYTORCH_MLP:
+        return PyTorchMLPModel(config)
+    raise ValueError(f"Unknown model type: {config.model_type}")
 
 
 def timed_fit(model: BaseModel, x: np.ndarray, y: np.ndarray, x_val: np.ndarray | None = None, y_val: np.ndarray | None = None) -> BaseModel:
