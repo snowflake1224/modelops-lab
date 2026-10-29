@@ -51,3 +51,5 @@ logs_*.zip
 
 # Optuna
 optuna_studies/
+
+project-description/
