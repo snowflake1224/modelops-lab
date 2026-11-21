@@ -48,7 +48,27 @@ def main():
     processed = settings.processed_data_dir / "credit_card_fraud_v1"
     preprocessor = joblib.load(processed / "preprocessor.joblib")
     splits = np.load(processed / "splits.npz")
-    sample_features = dict(zip(preprocessor.feature_names_, splits["x_test"][0]))
+    raw_parquet = settings.raw_data_dir / "credit_card_fraud_raw.parquet"
+    if not raw_parquet.exists():
+        raw_parquet = settings.raw_data_dir / "credit_card_fraud.parquet"
+    if raw_parquet.exists():
+        import pandas as pd
+        raw_df = pd.read_parquet(raw_parquet)
+        base_cols = [c for c in preprocessor.feature_names_ if c in raw_df.columns]
+        sample_features = {k: float(v) for k, v in raw_df[base_cols].iloc[0].to_dict().items()}
+    elif preprocessor.scaler_ is not None:
+        unscaled = preprocessor.scaler_.inverse_transform(splits["x_test"][:1])[0]
+        sample_features = {
+            k: float(v)
+            for k, v in zip(preprocessor.feature_names_, unscaled, strict=False)
+            if "_x_" not in k
+        }
+    else:
+        sample_features = {
+            k: float(v)
+            for k, v in zip(preprocessor.feature_names_, splits["x_test"][0], strict=False)
+            if "_x_" not in k
+        }
     pred = engine.predict([sample_features], request_id="e2e-demo")
     print(f"   Prediction: {pred.predictions[0]}, probability: {pred.probabilities[0]:.4f}")
 

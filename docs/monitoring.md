@@ -2,9 +2,10 @@
 
 ## Stack
 
-- **OpenTelemetry**: Distributed tracing instrumentation
-- **Prometheus**: Metrics collection and storage
-- **Grafana**: Visualization dashboards
+- **Prometheus**: Live `/metrics` endpoint exposed by `apps/inference/main.py` via `prometheus_client` and scraped by `infra/prometheus/prometheus.yml`
+- **Grafana**: Pre-provisioned Prometheus datasource (`infra/grafana/provisioning/datasources/datasource.yml`); dashboard JSON files can be imported via UI or provisioned into `infra/grafana/`
+- **MonitoringStore**: File-backed event & performance history store (`data/monitoring/{events,performance}.json`) queried by `apps/api` (`/monitoring/*`, `/drift/events`)
+- **Planned / Dependency-Declared**: `opentelemetry-*` and `structlog` are declared in `pyproject.toml` for future distributed tracing and structured JSON logging integration beyond request-ID headers (`X-Request-ID`) and Prometheus metrics
 
 ## System Metrics
 
@@ -37,15 +38,11 @@ Calculates precision, recall, F1, PR-AUC, calibration over time.
 
 If PR-AUC drops >10% between consecutive snapshots, a `performance_degradation` event is created.
 
-## Grafana Dashboard
+## Grafana
 
-Access at http://localhost:3000 (admin/admin)
+Access at http://localhost:3000 (`admin`/`admin`).
 
-Prometheus datasource pre-configured. Dashboard panels:
-- Request rate
-- Latency percentiles
-- Error rate
-- Prediction distribution
+The Prometheus datasource (`http://prometheus:9090`) is pre-provisioned as default so you can build or import dashboards against the scraped inference metrics (`inference_requests_total`, `inference_latency_seconds`, `prediction_probability`).
 
 ## API Endpoints
 

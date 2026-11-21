@@ -79,7 +79,10 @@ Services:
 
 ## Architecture
 
-See [docs/architecture.md](docs/architecture.md) for detailed architecture documentation.
+![ModelOps Lab Architecture](docs/diagrams/architecture.svg)
+![Registry Lifecycle & Benchmark](docs/diagrams/lifecycle-and-retraining.svg)
+
+See [docs/architecture.md](docs/architecture.md) and [docs/engineering-faq.md](docs/engineering-faq.md) for detailed architecture documentation.
 
 ## Dataset
 
@@ -103,6 +106,7 @@ uv run mypy packages apps
 ## Documentation
 
 - [Architecture](docs/architecture.md)
+- [Engineering FAQ](docs/engineering-faq.md)
 - [Data Pipeline](docs/data.md)
 - [Experiments](docs/experiments.md)
 - [Model Lifecycle](docs/model-lifecycle.md)

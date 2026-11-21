@@ -1,0 +1,27 @@
+flowchart LR
+    subgraph Data["1. Data & Features (Train-Only Fit)"]
+        OML["OpenML 1597 (284,807 tx · 29 features)"] --> DP["Stratified 70/15/15 Split + Schema Checks"]
+        DP --> PREP["FeaturePreprocessor (Quantile Clip · Top-5 Interactions · RobustScaler)"]
+    end
+
+    subgraph Train["2. Experimentation & Evaluation"]
+        PREP --> TR["TrainingPipeline (LogReg · LightGBM · XGBoost · PyTorch MLP)"]
+        OPT["Optuna HPO (val PR-AUC, MedianPruner)"] --> TR
+        TR --> MLF["MLflow Tracking (params · metrics · env · artifacts)"]
+        TR --> EVAL["Evaluation (Val F1 Threshold · Paired Bootstrap CI · Calibration)"]
+    end
+
+    subgraph Serve["3. Registry & Shared Inference"]
+        EVAL --> REG["ModelRegistry (dev -> val -> staging -> production / rollback)"]
+        TR --> LIN["LineageTracker (data · feature hash · commit · run_id)"]
+        REG --> ENG["Shared InferenceEngine (artifact + preprocessor.joblib + threshold)"]
+        ENG --> API_INF["FastAPI Inference (:8000 /predict, /predict/batch, /metrics)"]
+        ENG --> BATCH["Batch Inference CLI"]
+    end
+
+    subgraph Obs["4. Drift, Monitoring & Retraining"]
+        API_INF --> PROM["Prometheus (:9090) -> Grafana (:3000)"]
+        DP --> DRIFT["PSI (>0.2) + 2-Sample KS (p<0.05) Drift Detector"]
+        DRIFT --> MON["MonitoringStore (events · PR-AUC drop >10% alert)"]
+        MON --> RET["RetrainingPipeline (candidate >= 0.95 * prod PR-AUC -> manual gate)"]
+    end

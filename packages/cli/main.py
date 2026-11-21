@@ -106,17 +106,49 @@ def experiment_hpo(config: Path, n_trials: int = 10):
 
 @model_app.command("register")
 def model_register(run_id: str, version: str = "1.0.0"):
+    import json
+
     from packages.registry.store import ModelRegistry
     from packages.training.pipeline import get_git_commit
+
     settings = get_settings()
-    artifact_path = settings.model_artifact_path / run_id / "model.joblib"
+    artifact_dir = settings.model_artifact_path / run_id
+    config_json = artifact_dir / "config.json"
+    loaded_cfg = json.loads(config_json.read_text()) if config_json.exists() else {}
+    model_type = loaded_cfg.get("model", {}).get("type", "xgboost")
+    artifact_name = "model.pt" if model_type == "pytorch_mlp" else "model.joblib"
+    artifact_path = artifact_dir / artifact_name
+
+    reg_config = {"run_id": run_id, "model": {"type": model_type}}
+    if "optimal_threshold" in loaded_cfg:
+        reg_config["optimal_threshold"] = loaded_cfg["optimal_threshold"]
+
+    metrics: dict[str, float] = {}
+    try:
+        import mlflow
+
+        mlflow.set_tracking_uri(settings.mlflow_tracking_uri)
+        run = mlflow.tracking.MlflowClient().get_run(run_id)
+        for src_key, dst_key in [
+            ("test_precision", "precision"),
+            ("test_recall", "recall"),
+            ("test_f1", "f1"),
+            ("test_roc_auc", "roc_auc"),
+            ("test_pr_auc", "pr_auc"),
+            ("optimal_threshold", "threshold"),
+        ]:
+            if src_key in run.data.metrics:
+                metrics[dst_key] = float(run.data.metrics[src_key])
+    except Exception:
+        pass
+
     registry = ModelRegistry(settings.data_dir / "registry")
     mv = registry.register(
         name=settings.model_name,
         version=version,
         artifact_path=str(artifact_path),
-        metrics={},
-        config={"run_id": run_id},
+        metrics=metrics,
+        config=reg_config,
         git_commit=get_git_commit(),
     )
     console.print(f"[green]✓[/green] Registered {mv.name}:{mv.version} in {mv.stage.value}")

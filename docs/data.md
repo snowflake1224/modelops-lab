@@ -4,10 +4,10 @@
 
 **Credit Card Fraud Detection** (OpenML dataset 1597)
 
-- ~284,807 transactions
-- 30 anonymized PCA features (V1-V28) + Amount + Time
-- Binary target: Class (0=legitimate, 1=fraud)
-- ~0.17% fraud rate (highly imbalanced)
+- 284,807 transactions (`42fdf08c21a87bcd` checksum on OpenML export)
+- **29 numerical features**: 28 anonymized PCA features (`V1`–`V28`) + `Amount` (no `Time` column in OpenML 1597 export)
+- Binary target: `Class` (`0` = legitimate, `1` = fraud)
+- ~0.173% fraud rate (highly imbalanced; 492 positive examples)
 
 ## Adapter Interface
 

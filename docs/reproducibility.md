@@ -29,7 +29,7 @@ Results are reproducible within floating-point tolerance.
 ## Environment Locking
 
 ```bash
-uv sync  # Installs exact versions from lockfile
+uv sync --all-extras  # Installs exact versions from lockfile
 ```
 
 CI runs on Ubuntu with Python 3.12 for consistency.
@@ -48,11 +48,11 @@ data/artifacts/models/<run_id>/
 Answer "What produced this production model?":
 
 ```bash
-# Via API
+# Via Platform API
 curl http://localhost:8080/lineage/<record_id>
 
-# Via registry
-modelops model list
+# Registered models via Platform API
+curl http://localhost:8080/models
 ```
 
 Returns: dataset version, preprocessing version, experiment ID, git commit, full config.

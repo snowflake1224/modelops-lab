@@ -10,7 +10,6 @@ import numpy as np
 
 from packages.features.preprocessing import FeaturePreprocessor
 from packages.models.base import BaseModel, ModelType
-from packages.models.pytorch_mlp import PyTorchMLPModel
 from packages.registry.store import ModelRegistry
 
 
@@ -48,6 +47,8 @@ class InferenceEngine:
         model_type = ModelType(mv.config.get("model", {}).get("type", "lightgbm"))
 
         if model_type == ModelType.PYTORCH_MLP:
+            from packages.models.pytorch_mlp import PyTorchMLPModel
+
             self.model = PyTorchMLPModel.load(model_path)
         else:
             self.model = BaseModel.load(model_path)
