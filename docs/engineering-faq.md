@@ -10,7 +10,7 @@ Use this guide when walking through ModelOps Lab's ML lifecycle, leakage prevent
 
 ---
 
-## 2. Core Technical Interview Q&A
+## 2. Core Technical Q&A
 
 ### Q1: Why optimize PR-AUC and validation-tuned thresholds instead of accuracy or default 0.50?
 - At `0.173%` fraud prevalence, a trivial constant all-zero classifier scores `99.83%` accuracy and can still achieve high ROC-AUC when false-positive rate grows slowly over `42,648` negative samples.
