@@ -23,22 +23,22 @@
   </defs>
 
   <rect width="1120" height="620" fill="url(#bg)"/>
-  <text x="34" y="40" class="t">ModelOps Lab  End-to-End Fraud Detection &amp; MLOps Platform</text>
-  <text x="34" y="60" class="s">Leakage-Free Data/Feature Pipeline · MLflow + Optuna Training · Gated Registry · Shared Online/Batch Inference · PSI/KS Drift</text>
+  <text x="34" y="40" class="t">ModelOps Lab &#8212; End-to-End Fraud Detection &amp; MLOps Platform</text>
+  <text x="34" y="60" class="s">Leakage-Free Data/Feature Pipeline &#183; MLflow + Optuna Training &#183; Gated Registry &#183; Shared Online/Batch Inference &#183; PSI/KS Drift</text>
 
-  <!-- Row 1: Data & Training -->
+  <!-- Row 1: Data &amp; Training -->
   <rect x="34" y="84" width="1052" height="154" class="zone"/>
   <text x="50" y="106" class="zl">1. Reproducible Data, Train-Only Preprocessing &amp; Model Experimentation</text>
   <rect x="52" y="122" width="320" height="98" class="box"/>
   <text x="68" y="144" class="bt">OpenML 1597 &amp; Split Pipeline</text>
-  <text x="68" y="162" class="bs">284,807 rows · 29 features (V1-V28, Amount)</text>
+  <text x="68" y="162" class="bs">284,807 rows &#183; 29 features (V1-V28, Amount)</text>
   <text x="68" y="179" class="bs">Stratified 70/15/15 split BEFORE transform</text>
   <text x="68" y="196" class="bs">Quantile clip + Top-5 interact + RobustScaler</text>
 
   <rect x="400" y="122" width="336" height="98" class="box-db"/>
   <text x="416" y="144" class="bt">Training &amp; Optuna HPO (PR-AUC)</text>
-  <text x="416" y="162" class="bs">XGBoost (0.8303 PR-AUC) · LogReg (0.7943)</text>
-  <text x="416" y="179" class="bs">PyTorch MLP (0.7473) · LightGBM (+interact)</text>
+  <text x="416" y="162" class="bs">XGBoost (0.8303 PR-AUC) &#183; LogReg (0.7943)</text>
+  <text x="416" y="179" class="bs">PyTorch MLP (0.7473) &#183; LightGBM (+interact)</text>
   <text x="416" y="196" class="bs">Val F1-opt threshold + paired bootstrap CIs</text>
 
   <rect x="764" y="122" width="304" height="98" class="box"/>
@@ -47,14 +47,14 @@
   <text x="780" y="179" class="bs">model.joblib / .pt + preprocessor.joblib</text>
   <text x="780" y="196" class="bs">Lineage JSON (data/feature hash/run_id)</text>
 
-  <!-- Row 2: Registry & Shared Inference -->
+  <!-- Row 2: Registry &amp; Shared Inference -->
   <rect x="34" y="264" width="1052" height="156" class="zone"/>
   <text x="50" y="286" class="zl">2. Governed Model Lifecycle &amp; Train/Serve-Consistent Inference</text>
   <rect x="52" y="302" width="320" height="100" class="box-warn"/>
   <text x="68" y="324" class="bt">ModelRegistry State Machine</text>
   <text x="68" y="342" class="bs">Development -&gt; Validation -&gt; Staging -&gt; Prod</text>
   <text x="68" y="359" class="bs">Enforces PR-AUC &gt;= 0.50 &amp; validation_passed</text>
-  <text x="68" y="376" class="bs">Archives prior Prod · instant O(1) rollback</text>
+  <text x="68" y="376" class="bs">Archives prior Prod &#183; instant O(1) rollback</text>
 
   <rect x="400" y="302" width="336" height="100" class="box-db"/>
   <text x="416" y="324" class="bt">Shared InferenceEngine</text>
@@ -68,13 +68,13 @@
   <text x="780" y="359" class="bs">X-Request-ID correlation + /ready guard</text>
   <text x="780" y="376" class="bs">Platform API (:8080) manages runs/promote</text>
 
-  <!-- Row 3: Drift & Monitoring -->
+  <!-- Row 3: Drift &amp; Monitoring -->
   <rect x="34" y="446" width="1052" height="146" class="zone"/>
   <text x="50" y="468" class="zl">3. Drift Detection, Prometheus Metrics &amp; Human-Gated Retraining</text>
   <rect x="52" y="486" width="320" height="86" class="box"/>
   <text x="68" y="508" class="bt">Prometheus (/metrics) &amp; Grafana</text>
-  <text x="68" y="526" class="bs">inference_requests_total · latency histogram</text>
-  <text x="68" y="544" class="bs">prediction_probability buckets · Prom DS</text>
+  <text x="68" y="526" class="bs">inference_requests_total &#183; latency histogram</text>
+  <text x="68" y="544" class="bs">prediction_probability buckets &#183; Prom DS</text>
 
   <rect x="400" y="486" width="336" height="86" class="box-warn"/>
   <text x="416" y="508" class="bt">PSI &amp; Kolmogorov-Smirnov Drift</text>
