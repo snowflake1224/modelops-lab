@@ -3,7 +3,7 @@
 ![ModelOps Lab Architecture](diagrams/architecture.svg)
 ![Registry Lifecycle & Benchmark](diagrams/lifecycle-and-retraining.svg)
 
-See also: [Architecture Interview Guide](interview-guide.md)
+See also: [Engineering FAQ](engineering-faq.md)
 
 ## System Overview
 

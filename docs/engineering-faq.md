@@ -1,4 +1,4 @@
-# Architecture Deep-Dive & Interview Guide
+# Engineering FAQ
 
 Use this guide when walking through ModelOps Lab's ML lifecycle, leakage prevention, imbalance evaluation, and serving consistency guarantees.
 
