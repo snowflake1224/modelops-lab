@@ -1,0 +1,12 @@
+stateDiagram-v2
+    [*] --> Development: model register (artifacts + config + metrics)
+    Development --> Validation: validation_passed = true
+    Development --> Archived
+    Validation --> Staging: PR-AUC >= 0.50
+    Validation --> Development
+    Validation --> Archived
+    Staging --> Production: validation_passed & PR-AUC >= 0.50 (archives prior Prod)
+    Staging --> Validation
+    Staging --> Archived
+    Production --> Archived: replaced or rollback
+    Archived --> Production: rollback (latest archived restored)

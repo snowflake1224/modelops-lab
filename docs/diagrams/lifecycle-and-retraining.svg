@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 460" role="img" aria-label="ModelOps Registry Promotion State Machine and Experiment Benchmark Summary">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1020"/>
+      <stop offset="100%" stop-color="#131b35"/>
+    </linearGradient>
+    <marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <style>
+      .t { font: 700 19px 'Inter', 'Segoe UI', system-ui, sans-serif; fill: #f8fafc; }
+      .s { font: 400 12px 'Inter', 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; }
+      .card { fill: #11182d; stroke: #25345c; stroke-width: 1.4; rx: 12; }
+      .node { fill: #192446; stroke: #3b82f6; stroke-width: 1.4; rx: 8; }
+      .prod { fill: #132e35; stroke: #10b981; stroke-width: 1.5; rx: 8; }
+      .warn { fill: #252042; stroke: #f59e0b; stroke-width: 1.4; rx: 8; }
+      .bt { font: 600 13px 'Inter', 'Segoe UI', system-ui, sans-serif; fill: #f8fafc; }
+      .bs { font: 400 11px 'JetBrains Mono', monospace; fill: #94a3b8; }
+      .e { stroke: #38bdf8; stroke-width: 1.6; fill: none; marker-end: url(#a2); }
+      .ed { stroke: #f59e0b; stroke-width: 1.4; stroke-dasharray: 5 4; fill: none; marker-end: url(#a2); }
+    </style>
+  </defs>
+
+  <rect width="1100" height="460" fill="url(#bg2)"/>
+  <text x="34" y="40" class="t">Model Registry Lifecycle &amp; Controlled Benchmark Results</text>
+  <text x="34" y="60" class="s">Strict Stage-Transition Validation · Retrain Gate (PR-AUC &gt;= 0.95x prod) · OpenML 1597 Test Split (n=42,722, 74 frauds)</text>
+
+  <!-- Registry State Flow -->
+  <rect x="34" y="88" width="1032" height="156" class="card"/>
+  <text x="54" y="116" class="bt">Registry Stage Transitions &amp; Promotion Gates (packages/registry/store.py)</text>
+
+  <rect x="54" y="138" width="186" height="72" class="node"/>
+  <text x="72" y="164" class="bt">Development</text>
+  <text x="72" y="184" class="bs">model register</text>
+  <text x="72" y="200" class="bs">config + artifacts</text>
+
+  <rect x="278" y="138" width="206" height="72" class="warn"/>
+  <text x="296" y="164" class="bt">Validation</text>
+  <text x="296" y="184" class="bs">validation_passed=true</text>
+  <text x="296" y="200" class="bs">retrain &gt;= 0.95 * prod</text>
+
+  <rect x="522" y="138" width="186" height="72" class="node"/>
+  <text x="540" y="164" class="bt">Staging</text>
+  <text x="540" y="184" class="bs">Gate: PR-AUC &gt;= 0.50</text>
+  <text x="540" y="200" class="bs">await manual signoff</text>
+
+  <rect x="746" y="138" width="150" height="72" class="prod"/>
+  <text x="764" y="164" class="bt">Production</text>
+  <text x="764" y="184" class="bs">Live InferenceEngine</text>
+  <text x="764" y="200" class="bs">serves /predict</text>
+
+  <rect x="928" y="138" width="120" height="72" class="node"/>
+  <text x="946" y="164" class="bt">Archived</text>
+  <text x="946" y="184" class="bs">Rollback target</text>
+  <text x="946" y="200" class="bs">demoted Prod</text>
+
+  <path d="M 240 174 L 278 174" class="e"/>
+  <path d="M 484 174 L 522 174" class="e"/>
+  <path d="M 708 174 L 746 174" class="e"/>
+  <path d="M 896 164 L 928 164" class="e"/>
+  <path d="M 988 210 L 988 232 L 821 232 L 821 210" class="ed"/>
+  <text x="868" y="227" class="bs">rollback()</text>
+
+  <!-- Benchmark Card -->
+  <rect x="34" y="268" width="1032" height="164" class="card"/>
+  <text x="54" y="298" class="bt">OpenML 1597 Fraud Benchmark Comparison (Threshold Tuned on Validation Split for Max F1)</text>
+  <text x="54" y="328" class="bs">Model                    PR-AUC   F1       Precision  Recall   ROC-AUC   Train Time  Production Status</text>
+  <text x="54" y="348" class="bs">------------------------------------------------------------------------------------------------------</text>
+  <text x="54" y="368" class="bs" fill="#34d399">XGBoost (baseline)       0.8303   0.8244   0.9474     0.7297   0.9621     9.5s       Promoted (1.0.0)</text>
+  <text x="54" y="386" class="bs">Logistic Regression      0.7943   0.7682   0.7532     0.7838   0.9717     1.0s       Fast linear baseline</text>
+  <text x="54" y="404" class="bs">PyTorch MLP (128-64-32)  0.7473   0.8345   0.8923     0.7838   0.9776   483.0s       Best F1, ~51x slower</text>
+  <text x="54" y="422" class="bs">LightGBM (+interactions) 0.6774   0.8031   0.9623     0.6892   0.8519    10.4s       +0.5887 PR-AUC vs base</text>
+</svg>

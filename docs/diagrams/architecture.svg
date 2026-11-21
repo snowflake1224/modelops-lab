@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 620" role="img" aria-label="ModelOps Lab End-to-End Architecture">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1020"/>
+      <stop offset="100%" stop-color="#111a34"/>
+    </linearGradient>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <style>
+      .t { font: 700 20px 'Inter', 'Segoe UI', system-ui, sans-serif; fill: #f8fafc; }
+      .s { font: 400 12px 'Inter', 'Segoe UI', system-ui, sans-serif; fill: #94a3b8; }
+      .zone { fill: #131c36; stroke: #293b66; stroke-width: 1.5; rx: 14; }
+      .zl { font: 700 11px 'Inter', 'Segoe UI', system-ui, sans-serif; letter-spacing: 0.08em; fill: #38bdf8; text-transform: uppercase; }
+      .box { fill: #1b284c; stroke: #3b82f6; stroke-width: 1.3; rx: 10; }
+      .box-db { fill: #132c37; stroke: #10b981; stroke-width: 1.4; rx: 10; }
+      .box-warn { fill: #252042; stroke: #f59e0b; stroke-width: 1.3; rx: 10; }
+      .bt { font: 600 13px 'Inter', 'Segoe UI', system-ui, sans-serif; fill: #f1f5f9; }
+      .bs { font: 400 11px 'JetBrains Mono', monospace; fill: #94a3b8; }
+      .e { stroke: #38bdf8; stroke-width: 1.6; fill: none; marker-end: url(#arr); }
+      .ed { stroke: #f59e0b; stroke-width: 1.4; stroke-dasharray: 5 4; fill: none; marker-end: url(#arr); }
+    </style>
+  </defs>
+
+  <rect width="1120" height="620" fill="url(#bg)"/>
+  <text x="34" y="40" class="t">ModelOps Lab  End-to-End Fraud Detection &amp; MLOps Platform</text>
+  <text x="34" y="60" class="s">Leakage-Free Data/Feature Pipeline · MLflow + Optuna Training · Gated Registry · Shared Online/Batch Inference · PSI/KS Drift</text>
+
+  <!-- Row 1: Data & Training -->
+  <rect x="34" y="84" width="1052" height="154" class="zone"/>
+  <text x="50" y="106" class="zl">1. Reproducible Data, Train-Only Preprocessing &amp; Model Experimentation</text>
+  <rect x="52" y="122" width="320" height="98" class="box"/>
+  <text x="68" y="144" class="bt">OpenML 1597 &amp; Split Pipeline</text>
+  <text x="68" y="162" class="bs">284,807 rows · 29 features (V1-V28, Amount)</text>
+  <text x="68" y="179" class="bs">Stratified 70/15/15 split BEFORE transform</text>
+  <text x="68" y="196" class="bs">Quantile clip + Top-5 interact + RobustScaler</text>
+
+  <rect x="400" y="122" width="336" height="98" class="box-db"/>
+  <text x="416" y="144" class="bt">Training &amp; Optuna HPO (PR-AUC)</text>
+  <text x="416" y="162" class="bs">XGBoost (0.8303 PR-AUC) · LogReg (0.7943)</text>
+  <text x="416" y="179" class="bs">PyTorch MLP (0.7473) · LightGBM (+interact)</text>
+  <text x="416" y="196" class="bs">Val F1-opt threshold + paired bootstrap CIs</text>
+
+  <rect x="764" y="122" width="304" height="98" class="box"/>
+  <text x="780" y="144" class="bt">MLflow + Artifact &amp; Lineage Store</text>
+  <text x="780" y="162" class="bs">Logs params, env, git commit, metrics</text>
+  <text x="780" y="179" class="bs">model.joblib / .pt + preprocessor.joblib</text>
+  <text x="780" y="196" class="bs">Lineage JSON (data/feature hash/run_id)</text>
+
+  <!-- Row 2: Registry & Shared Inference -->
+  <rect x="34" y="264" width="1052" height="156" class="zone"/>
+  <text x="50" y="286" class="zl">2. Governed Model Lifecycle &amp; Train/Serve-Consistent Inference</text>
+  <rect x="52" y="302" width="320" height="100" class="box-warn"/>
+  <text x="68" y="324" class="bt">ModelRegistry State Machine</text>
+  <text x="68" y="342" class="bs">Development -&gt; Validation -&gt; Staging -&gt; Prod</text>
+  <text x="68" y="359" class="bs">Enforces PR-AUC &gt;= 0.50 &amp; validation_passed</text>
+  <text x="68" y="376" class="bs">Archives prior Prod · instant O(1) rollback</text>
+
+  <rect x="400" y="302" width="336" height="100" class="box-db"/>
+  <text x="416" y="324" class="bt">Shared InferenceEngine</text>
+  <text x="416" y="342" class="bs">Loads production artifact + config.threshold</text>
+  <text x="416" y="359" class="bs">Validates all 29 features against schema</text>
+  <text x="416" y="376" class="bs">Single transform pass (zero train/serve skew)</text>
+
+  <rect x="764" y="302" width="304" height="100" class="box"/>
+  <text x="780" y="324" class="bt">FastAPI Online (:8000) &amp; Batch CLI</text>
+  <text x="780" y="342" class="bs">POST /predict &amp; /predict/batch (&lt;= 1000)</text>
+  <text x="780" y="359" class="bs">X-Request-ID correlation + /ready guard</text>
+  <text x="780" y="376" class="bs">Platform API (:8080) manages runs/promote</text>
+
+  <!-- Row 3: Drift & Monitoring -->
+  <rect x="34" y="446" width="1052" height="146" class="zone"/>
+  <text x="50" y="468" class="zl">3. Drift Detection, Prometheus Metrics &amp; Human-Gated Retraining</text>
+  <rect x="52" y="486" width="320" height="86" class="box"/>
+  <text x="68" y="508" class="bt">Prometheus (/metrics) &amp; Grafana</text>
+  <text x="68" y="526" class="bs">inference_requests_total · latency histogram</text>
+  <text x="68" y="544" class="bs">prediction_probability buckets · Prom DS</text>
+
+  <rect x="400" y="486" width="336" height="86" class="box-warn"/>
+  <text x="416" y="508" class="bt">PSI &amp; Kolmogorov-Smirnov Drift</text>
+  <text x="416" y="526" class="bs">10-bin PSI (&gt;0.2) + 2-sample KS (p &lt; 0.05)</text>
+  <text x="416" y="544" class="bs">Logs &gt;10% PR-AUC drops to MonitoringStore</text>
+
+  <rect x="764" y="486" width="304" height="86" class="box-db"/>
+  <text x="780" y="508" class="bt">Retraining Candidate Gate</text>
+  <text x="780" y="526" class="bs">Candidate passes if PR-AUC &gt;= 0.95 * prod</text>
+  <text x="780" y="544" class="bs">Promotes to Validation (manual Prod signoff)</text>
+
+  <path d="M 372 171 L 400 171" class="e"/>
+  <path d="M 736 171 L 764 171" class="e"/>
+  <path d="M 850 220 L 240 302" class="e"/>
+  <path d="M 372 352 L 400 352" class="e"/>
+  <path d="M 736 352 L 764 352" class="e"/>
+  <path d="M 916 402 L 240 486" class="e"/>
+  <path d="M 212 220 L 540 486" class="ed"/>
+  <path d="M 736 529 L 764 529" class="e"/>
+  <path d="M 780 486 L 260 402" class="ed"/>
+</svg>

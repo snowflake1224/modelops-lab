@@ -49,15 +49,34 @@ def compute_metrics(
     calibration = {"prob_true": prob_true.tolist(), "prob_pred": prob_pred.tolist()}
 
     rng = np.random.default_rng(seed)
-    bootstrap_ci: dict[str, tuple[float, float]] = {}
-    for name, fn in [
-        ("precision", lambda: precision_score(y_true[rng.integers(0, len(y_true), len(y_true))], (y_proba[rng.integers(0, len(y_true), len(y_true))] >= threshold).astype(int), zero_division=0)),
-        ("recall", lambda: recall_score(y_true[rng.integers(0, len(y_true), len(y_true))], (y_proba[rng.integers(0, len(y_true), len(y_true))] >= threshold).astype(int), zero_division=0)),
-        ("f1", lambda: f1_score(y_true[rng.integers(0, len(y_true), len(y_true))], (y_proba[rng.integers(0, len(y_true), len(y_true))] >= threshold).astype(int), zero_division=0)),
-        ("pr_auc", lambda: average_precision_score(y_true[rng.integers(0, len(y_true), len(y_true))], y_proba[rng.integers(0, len(y_true), len(y_true))])),
-    ]:
-        samples = [fn() for _ in range(n_bootstrap)]
-        bootstrap_ci[name] = (float(np.percentile(samples, 2.5)), float(np.percentile(samples, 97.5)))
+    n_samples = len(y_true)
+    metric_samples: dict[str, list[float]] = {
+        "precision": [],
+        "recall": [],
+        "f1": [],
+        "pr_auc": [],
+    }
+    for _ in range(n_bootstrap):
+        idx = rng.integers(0, n_samples, n_samples)
+        yt_b = y_true[idx]
+        yp_b = y_proba[idx]
+        yp_pred_b = (yp_b >= threshold).astype(int)
+        metric_samples["precision"].append(
+            float(precision_score(yt_b, yp_pred_b, zero_division=0))
+        )
+        metric_samples["recall"].append(
+            float(recall_score(yt_b, yp_pred_b, zero_division=0))
+        )
+        metric_samples["f1"].append(
+            float(f1_score(yt_b, yp_pred_b, zero_division=0))
+        )
+        pr_val = float(average_precision_score(yt_b, yp_b)) if yt_b.sum() > 0 else 0.0
+        metric_samples["pr_auc"].append(pr_val)
+
+    bootstrap_ci: dict[str, tuple[float, float]] = {
+        name: (float(np.percentile(samples, 2.5)), float(np.percentile(samples, 97.5)))
+        for name, samples in metric_samples.items()
+    }
 
     return MetricResult(
         precision=precision,

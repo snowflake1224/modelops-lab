@@ -1,5 +1,10 @@
 # Architecture
 
+![ModelOps Lab Architecture](diagrams/architecture.svg)
+![Registry Lifecycle & Benchmark](diagrams/lifecycle-and-retraining.svg)
+
+See also: [Architecture Interview Guide](interview-guide.md)
+
 ## System Overview
 
 ```mermaid
