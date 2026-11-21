@@ -1,5 +1,7 @@
 """Tests for inference service."""
 
+from types import SimpleNamespace
+
 import pytest
 from fastapi.testclient import TestClient
 
@@ -7,8 +9,14 @@ from apps.inference.main import app
 
 
 @pytest.fixture
-def client():
-    return TestClient(app)
+def client(tmp_path, monkeypatch):
+    isolated_settings = SimpleNamespace(
+        data_dir=tmp_path,
+        max_batch_size=1000,
+    )
+    monkeypatch.setattr("apps.inference.main.get_settings", lambda: isolated_settings)
+    with TestClient(app) as test_client:
+        yield test_client
 
 
 def test_health(client):

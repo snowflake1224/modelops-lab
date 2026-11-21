@@ -78,18 +78,21 @@ class BaseModel(ABC):
 
 
 def create_model(config: ModelConfig) -> BaseModel:
-    from packages.models.lightgbm_model import LightGBMModel
-    from packages.models.logistic import LogisticRegressionModel
-    from packages.models.pytorch_mlp import PyTorchMLPModel
-    from packages.models.xgboost_model import XGBoostModel
-
     if config.model_type == ModelType.LOGISTIC_REGRESSION:
+        from packages.models.logistic import LogisticRegressionModel
+
         return LogisticRegressionModel(config)
     if config.model_type == ModelType.LIGHTGBM:
+        from packages.models.lightgbm_model import LightGBMModel
+
         return LightGBMModel(config)
     if config.model_type == ModelType.XGBOOST:
+        from packages.models.xgboost_model import XGBoostModel
+
         return XGBoostModel(config)
     if config.model_type == ModelType.PYTORCH_MLP:
+        from packages.models.pytorch_mlp import PyTorchMLPModel
+
         return PyTorchMLPModel(config)
     raise ValueError(f"Unknown model type: {config.model_type}")
 
